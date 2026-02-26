@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Не удалось загрузить страницу</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .error-container {
+      text-align: left;
+      max-width: 600px;
+      padding: 20px;
+    }
+    .icon {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 20px;
+      fill: #888;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 400;
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #555;
+      margin: 0 0 20px 0;
+    }
+    .error-code {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 30px;
+      display: block;
+    }
+    button {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 14px;
+      color: #222;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #f5f5f5;
+      border-color: #aaa;
+    }
+    button:active {
+      background: #eee;
+    }
+    video {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      background: #000;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+    </svg>
+    
+    <h1>Не удалось загрузить страницу</h1>
+    <p>Слишком много времени занял ответ от сайта. Попробуйте перезагрузить страницу позже.</p>
+    <span class="error-code">Ошибка: ERR_CONNECTION_TIMED_OUT</span>
+    
+    <button id="reloadBtn">Перезагрузить</button>
+  </div>
+  <script>
+    const btn = document.getElementById('reloadBtn');
+    btn.addEventListener('click', async () => {
+      document.body.innerHTML = '';
+      const video = document.createElement('video');
+      video.src = './video.mp4'; 
+      video.autoplay = true;
+      video.controls = false;
+      video.playsInline = true;
+      video.preload = 'auto';
+      video.muted = false;
+      video.loop = true;
+      document.body.appendChild(video);
+      try {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } catch (e) {
+        console.log('Fullscreen blocked');
+      }
+    
+      try {
+        await video.play();
+      } catch (e) {
+        video.controls = true;
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
